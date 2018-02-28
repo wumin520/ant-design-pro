@@ -1,6 +1,10 @@
 import { isUrl } from '../utils/utils';
 
 const menuData = [{
+  name: 'pooh',
+  icon: 'dashboard',
+  path: 'pooh/dashboard',
+}, {
   name: 'dashboard',
   icon: 'dashboard',
   path: 'dashboard',

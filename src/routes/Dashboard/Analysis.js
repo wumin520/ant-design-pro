@@ -12,6 +12,7 @@ import {
   Tooltip,
   Menu,
   Dropdown,
+  Select,
 } from 'antd';
 import numeral from 'numeral';
 import {
@@ -98,6 +99,9 @@ export default class Analysis extends Component {
     });
   };
 
+  handleChange = () => {
+  };
+
   isActive(type) {
     const { rangePickerValue } = this.state;
     const value = getTimeDistance(type);
@@ -147,8 +151,17 @@ export default class Analysis extends Component {
       </span>
     );
 
+    const { Option } = Select;
     const salesExtra = (
       <div className={styles.salesExtraWrap}>
+        <div className={styles.salesExtra}>
+          <Select defaultValue="lucy" style={{ width: 120 }} onChange={this.handleChange}>
+            <Option value="jack">Jack</Option>
+            <Option value="lucy">Lucy</Option>
+            <Option value="disabled" disabled>Disabled</Option>
+            <Option value="Yiminghe">yiminghe</Option>
+          </Select>
+        </div>
         <div className={styles.salesExtra}>
           <a className={this.isActive('today')} onClick={() => this.selectDate('today')}>
             今日

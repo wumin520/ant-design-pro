@@ -1,6 +1,7 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
+import qs from 'qs';
 import store from '../index';
 
 const codeMessage = {
@@ -26,7 +27,7 @@ function checkStatus(response) {
   }
   const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
-    message: `请求错误 ${response.status}: ${response.url}`,
+    message: `请求错误 ${response.message}: ${response.status}: ${response.url}`,
     description: errortext,
   });
   const error = new Error(errortext);
@@ -54,7 +55,7 @@ export default function request(url, options) {
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers,
       };
-      newOptions.body = JSON.stringify(newOptions.body);
+      newOptions.body = qs.stringify(newOptions.body);
     } else {
       // newOptions.body is FormData
       newOptions.headers = {

@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { fakeAccountLogin } from '../services/api';
+import { logout } from '../services/user';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
@@ -13,6 +14,7 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
+      response.currentAuthority = 'admin';
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -23,7 +25,7 @@ export default {
         yield put(routerRedux.push('/'));
       }
     },
-    *logout(_, { put, select }) {
+    *logout(_, { call, put, select }) {
       try {
         // get location pathname
         const urlParams = new URL(window.location.href);
@@ -32,6 +34,7 @@ export default {
         urlParams.searchParams.set('redirect', pathname);
         window.history.replaceState(null, 'login', urlParams.href);
       } finally {
+        yield call(logout);
         yield put({
           type: 'changeLoginStatus',
           payload: {

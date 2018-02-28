@@ -5,5 +5,9 @@ export async function query() {
 }
 
 export async function queryCurrent() {
-  return request('/api/currentUser');
+  return request('/v2/api/dashboard');
+}
+
+export async function logout() {
+  return request('/v2/api/logout');
 }

@@ -39,14 +39,28 @@ export function getTimeDistance(type) {
     const nextYear = nextDate.year();
     const nextMonth = nextDate.month();
 
-    return [moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`), moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000)];
+    return [moment(moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`).valueOf()), moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000)];
   }
 
   if (type === 'year') {
     const year = now.getFullYear();
 
-    return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
+    return [moment(moment(`${year}-01-01 00:00:00`).valueOf()), moment(moment(`${year}-12-31 23:59:59`).valueOf())];
   }
+
+  let beginTime;
+  if (type === '7days') {
+    beginTime = now.setDate(now.getDate() - 6);
+  }
+
+  if (type === '30days') {
+    beginTime = now.setMonth(now.getMonth() - 1);
+  }
+
+  if (type === '2months') {
+    beginTime = now.setMonth(now.getMonth() - 2);
+  }
+  return [moment(beginTime), moment(new Date())];
 }
 
 export function getPlainNode(nodeList, parentPath = '') {

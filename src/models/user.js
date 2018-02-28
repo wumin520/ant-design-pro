@@ -1,4 +1,4 @@
-import { query as queryUsers, queryCurrent } from '../services/user';
+import { query as queryUsers, queryCurrent, logout } from '../services/user';
 
 export default {
   namespace: 'user',
@@ -6,6 +6,7 @@ export default {
   state: {
     list: [],
     currentUser: {},
+    dashboard: {},
   },
 
   effects: {
@@ -22,6 +23,13 @@ export default {
         type: 'saveCurrentUser',
         payload: response,
       });
+      yield put({
+        type: 'saveDashboard',
+        payload: response,
+      });
+    },
+    *logout(_, { call }) {
+      yield call(logout);
     },
   },
 
@@ -35,7 +43,13 @@ export default {
     saveCurrentUser(state, action) {
       return {
         ...state,
-        currentUser: action.payload,
+        currentUser: action.payload.payload.navbar,
+      };
+    },
+    saveDashboard(state, action) {
+      return {
+        ...state,
+        dashboard: action.payload,
       };
     },
     changeNotifyCount(state, action) {
